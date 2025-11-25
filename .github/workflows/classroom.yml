@@ -1,0 +1,38 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test10
+      id: test10
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test10
+        setup-command: "/bin/bash test10.sh"
+        command: cat Test/output.txt
+        input: ''
+        expected-output: "[TEST1]\nv.size(): 3\nv[0]: 0\nv[1]: 1\nv[2]: 2\n*it: 0\n*it
+          after ++: 1\nRange-based for: 0 1 2 \n\n[TEST2]\na == b: 1\na != b: 0\na
+          != c: 1\na < c: 1\nc > a: 1\na <= b: 1\nc >= a: 1\nd < a: 1\na > d: 1\nempty
+          < a: 1\na > empty: 1\nempty == empty: 1\na == a: 1\na < a: 0\na > a: 0\n\n[TEST3]\nInitial:
+          10 20 30 \nAfter push_back: 10 20 30 40 \nAfter pop_back: 10 20 30 \nAfter
+          insert at pos 1: 10 15 20 30 \nAfter erase pos 2: 10 15 30 \nat(1): 15\nfront:
+          10\nback: 30\nAfter clear, size: 0\nEmpty: 1"
+        comparison-method: contains
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST10_RESULTS: "${{steps.test10.outputs.result}}"
+      with:
+        runners: test10
