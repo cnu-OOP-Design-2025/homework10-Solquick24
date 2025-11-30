@@ -1,0 +1,37 @@
+[TEST1]
+v.size(): 3
+v[0]: 0
+v[1]: 1
+v[2]: 2
+*it: 0
+*it after ++: 1
+Range-based for: 0 1 2 
+
+[TEST2]
+a == b: 1
+a != b: 0
+a != c: 1
+a < c: 1
+c > a: 1
+a <= b: 1
+c >= a: 1
+d < a: 1
+a > d: 1
+empty < a: 1
+a > empty: 1
+empty == empty: 1
+a == a: 1
+a < a: 0
+a > a: 0
+
+[TEST3]
+Initial: 10 20 30 
+After push_back: 10 20 30 40 
+After pop_back: 10 20 30 
+After insert at pos 1: 10 15 20 30 
+After erase pos 2: 10 15 30 
+at(1): 15
+front: 10
+back: 30
+After clear, size: 0
+Empty: 1
